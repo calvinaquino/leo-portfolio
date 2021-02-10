@@ -1,9 +1,5 @@
 import { useState } from "react";
-import styled from "styled-components";
-
-const Container = styled.div`
-  flex: 1;
-`;
+import { Button, Card, Input } from "semantic-ui-react";
 
 type SubmitViewProps = {
   onSubmit: (title: string, content: string) => void;
@@ -14,22 +10,24 @@ export const SubmitView: React.FC<SubmitViewProps> = (props) => {
   const [content, setContent] = useState("");
 
   return (
-    <Container>
-      <input
-        value={title}
-        onChange={(event) => {
-          setTitle(event.target.value);
-        }}
-      />
-      <input
-        value={content}
-        onChange={(event) => {
-          setContent(event.target.value);
-        }}
-      />
-      <button onClick={() => props.onSubmit(title, content)}>
-        <p>Submit</p>
-      </button>
-    </Container>
+    <Card>
+      <Card.Content>
+        <Input
+          placeholder={"Título"}
+          value={title}
+          onChange={(event) => {
+            setTitle(event.target.value);
+          }}
+        />
+        <Input
+          placeholder={"Conteúdo"}
+          value={content}
+          onChange={(event) => {
+            setContent(event.target.value);
+          }}
+        />
+        <Button onClick={() => props.onSubmit(title, content)}>Submit</Button>
+      </Card.Content>
+    </Card>
   );
 };

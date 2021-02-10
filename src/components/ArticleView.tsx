@@ -1,9 +1,4 @@
-import styled from "styled-components";
-
-const Container = styled.div`
-  flex: 1;
-  display: inline;
-`;
+import { Button, Card, Container, Label } from "semantic-ui-react";
 
 type ArticleViewProps = {
   title: string;
@@ -13,12 +8,16 @@ type ArticleViewProps = {
 
 export const ArticleView: React.FC<ArticleViewProps> = (props) => {
   return (
-    <Container>
-      <p>{props.title}</p>
-      <p>{props.content}</p>
-      <button onClick={() => props.onDelete()}>
-        <p>Delete</p>
-      </button>
-    </Container>
+    <Card>
+      <Card.Content>
+        <Card.Header>{props.title}</Card.Header>
+        <Card.Description>{props.content}</Card.Description>
+      </Card.Content>
+      <Card.Content>
+        <Button basic onClick={() => props.onDelete()}>
+          {"Delete"}
+        </Button>
+      </Card.Content>
+    </Card>
   );
 };

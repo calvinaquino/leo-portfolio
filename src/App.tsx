@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { ArticleView } from "./components/ArticleView";
 import { SubmitView } from "./components/SubmitView";
 
 import { DataStore } from "@aws-amplify/datastore";
 import { Article } from "./models";
-
-const Screen = styled.div`
-  flex: 1;
-`;
+import { Container, Grid } from "semantic-ui-react";
 
 const App: React.FC = () => {
   const [articles, setArticles] = useState<Array<Article>>([]);
@@ -25,6 +21,10 @@ const App: React.FC = () => {
     await DataStore.save(new Article({ title, content }));
   };
 
+  const deleteArticle = async (article: Article) => {
+    DataStore.delete(article);
+  };
+
   useEffect(() => {
     console.log("subscribe to articles");
     const subscription = DataStore.observe(Article).subscribe(() => {
@@ -36,19 +36,17 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Screen>
+    <Container style={{ margin: 25 }}>
       {articles.map((article) => (
         <ArticleView
           key={article.id}
           title={article.title}
           content={article.content ?? "No content"}
-          onDelete={async () => {
-            await DataStore.delete({ id: article.id });
-          }}
+          onDelete={() => deleteArticle(article)}
         />
       ))}
       <SubmitView onSubmit={createArticle} />
-    </Screen>
+    </Container>
   );
 };
 
